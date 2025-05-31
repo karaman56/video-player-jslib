@@ -3,6 +3,14 @@
 <head>
   <title>Пример подключения плеера</title>
   <meta charset="utf-8">
+  <style>
+    .play-icon {
+      font-size: 24px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -10,8 +18,9 @@
 
     <div class="js-video-container" style="width: 100%; height: 100%"></div>
     <!-- Here can be placed player controls: play and volume buttons -->
-    <button type="button" name="popup-button">Play</button>
+    <button class="play-icon" name="popup-button" title="Play">▶</button>
   </div>
+
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://unpkg.com/playable@2.10.3/dist/statics/playable.bundle.min.js"></script>
