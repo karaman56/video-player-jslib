@@ -67,9 +67,25 @@
       z-index: 100;
     }
 
+    /* Обновлённые стили для элементов управления */
+    .control-element {
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-pause-control {
+      width: 30px;
+      height: 30px;
+    }
+
     .volume-control {
       margin-left: 15px;
       color: white;
+      display: flex;
+      align-items: center;
     }
   </style>
 </head>
@@ -77,15 +93,20 @@
   <div id="player">
     <div class="js-video-container"></div>
 
-    
+    <!-- Заменяем button на div -->
+    <div class="play-icon control-element" role="button" aria-label="Play">
+      <i class="fas fa-play"></i>
+    </div>
 
-    <!-- Пример других элементов управления -->
+    <!-- Обновлённые элементы управления -->
     <div class="player-controls">
-      <button class="play-pause-btn">
-        <i class="fa fa-play" aria-hidden="true"></i>
-      </button>
+      <!-- Заменяем кнопку play/pause на div -->
+      <div class="play-pause-control control-element" role="button" aria-label="Play/Pause">
+        <i class="fas fa-play"></i>
+      </div>
+
       <div class="volume-control">
-        <i class="fa fa-volume-up" aria-hidden="true"></i>
+        <i class="fas fa-volume-up control-element" role="button" aria-label="Mute"></i>
         <input type="range" min="0" max="100" value="80">
       </div>
     </div>

@@ -1,25 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>HELLO</title>
+  <title>Пример подключения плеера</title>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+      #player {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      background-color: #000; /* Чёрный фон */
+      overflow: hidden; /* Обрезает всё, что выходит за границы */
+    }
+
+    .js-video-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Стили для кнопки Play в нижнем левом углу */
+    .bottom-play-control {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      z-index: 100;
+
+      /* Внешний вид кнопки */
+      width: 40px;
+      height: 40px;
+      background: #ffffff; /* Белый фон */
+      border: 1px solid #808080; /* Серая рамка */
+      border-radius: 0; /* Прямоугольная форма */
+      color: red;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Эффекты при наведении */
+    .bottom-play-control:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: scale(1.1);
+      transition: all 0.2s ease;
+    }
+  </style>
 </head>
 <body>
+  <div id="player">
+    <div class="js-video-container"></div>
 
-<h2>
-  <a href="https://ru.wikipedia.org/wiki/Коала">
-  <b>Коала</b> — Википедия<b></a>
-  <br>
-  <small>
-    <small>
-        ru.wikipedia.org›Коала
-    </small>
-</small>
-</h2>
-<h3 style="color:red;">Статья о коалах</h3>
-<p><b>Коaла</b>(лат. Phascolarctos cinereus) — вид сумчатых, обитающий в Австралии.
-  <i>Единственный</i> современный представитель семейства коаловых ... Читать ещё.
-  <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B0%D0%BB%D0%B0">Google</a></p>
-<script src="http://localhost:35729/livereload.js?snipver=1"></script>
+    <!-- Кнопка Play в нижнем левом углу -->
+    <div class="bottom-play-control" role="button" aria-label="Play">
+      <i class="fas fa-play"></i>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://unpkg.com/playable@2.10.3/dist/statics/playable.bundle.min.js"></script>
+  <script src="player.js"></script>
+
+  <script type="text/javascript">
+    createPlayer({elementId: 'player'});
+  </script>
+  <script src="http://localhost:35729/livereload.js?snipver=1"></script>
 </body>
 </html>
