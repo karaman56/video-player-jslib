@@ -1,124 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Пример подключения плеера</title>
+  <title>Плеер с переключением кнопок</title>
   <meta charset="utf-8">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
-
   <style>
-    /* Основные стили для контейнера плеера */
     #player {
-      position: relative;
       width: 800px;
       height: 600px;
-      background-color: #000; /* Чёрный фон */
-      overflow: hidden; /* Обрезает всё, что выходит за границы */
+      background-color: #000;
+      position: relative;
+      overflow: hidden;
     }
 
-    .js-video-container {
+    #video {
       width: 100%;
-      height: 100%;
+      height: 90%;
+      object-fit: cover;
     }
 
-    /* Стили для кнопки Play */
-    .play-icon {
+    .controls-container {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 100;
+      bottom: 15px;
+      left: 15px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
 
-      /* Внешний вид кнопки */
-      width: 80px;
-      height: 80px;
-      background: rgba(0, 0, 0, 0.7); /* Полупрозрачный чёрный фон */
-      border-radius: 50%; /* Круглая форма */
-      border: none;
-      outline: none;
-      cursor: pointer;
-
-      /* Стили для иконки */
-      color: white;
-      font-size: 30px;
+    .control-button {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid #808080;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    /* Эффекты при наведении */
-    .play-icon:hover {
-      background: rgba(0, 0, 0, 0.9);
-      transform: translate(-50%, -50%) scale(1.05);
-      transition: all 0.2s ease;
-    }
-
-    /* Стили для других элементов управления */
-    .player-controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7); /* Полупрозрачный чёрный фон */
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      z-index: 100;
-    }
-
-    /* Обновлённые стили для элементов управления */
-    .control-element {
       cursor: pointer;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .play-pause-control {
-      width: 30px;
-      height: 30px;
-    }
-
-    .volume-control {
-      margin-left: 15px;
       color: white;
-      display: flex;
-      align-items: center;
+    }
+
+    /* Скрытие кнопок по умолчанию */
+    #pauseBtn {
+      display: none;
     }
   </style>
 </head>
 <body>
   <div id="player">
-    <div class="js-video-container"></div>
+    <video id="video">
+      <source src="https://dvmn.org/media/filer_public/78/db/78db3456-3fd3-4504-9ed9-d2d1fd843c0b/highest_peak.mp4" type="video/mp4">
+    </video>
 
-    <!-- Заменяем button на div -->
-    <div class="play-icon control-element" role="button" aria-label="Play">
-      <i class="fas fa-play"></i>
-    </div>
-
-    <!-- Обновлённые элементы управления -->
-    <div class="player-controls">
-      <!-- Заменяем кнопку play/pause на div -->
-      <div class="play-pause-control control-element" role="button" aria-label="Play/Pause">
+    <div class="controls-container">
+      <!-- Кнопка Play (видима по умолчанию) -->
+      <div class="control-button" id="playBtn" onclick="togglePlayPause()">
         <i class="fas fa-play"></i>
       </div>
 
-      <div class="volume-control">
-        <i class="fas fa-volume-up control-element" role="button" aria-label="Mute"></i>
-        <input type="range" min="0" max="100" value="80">
+      <!-- Кнопка Pause (скрыта по умолчанию) -->
+      <div class="control-button" id="pauseBtn" onclick="togglePlayPause()">
+        <i class="fas fa-pause"></i>
       </div>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="https://unpkg.com/playable@2.10.3/dist/statics/playable.bundle.min.js"></script>
-  <script src="player.js"></script>
+  <script>
+    const video = document.getElementById('video');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
 
-  <script type="text/javascript">
-    createPlayer({elementId: 'player'});
+    function togglePlayPause() {
+      if (video.paused) {
+        // Если видео на паузе - запускаем
+        video.play();
+        playBtn.style.display = 'none'; // Скрываем Play
+        pauseBtn.style.display = 'flex'; // Показываем Pause
+      } else {
+        // Если видео играет - ставим на паузу
+        video.pause();
+        playBtn.style.display = 'flex'; // Показываем Play
+        pauseBtn.style.display = 'none'; // Скрываем Pause
+      }
+    }
+
+    // Обработчик окончания видео
+    video.addEventListener('ended', function() {
+      playBtn.style.display = 'flex';
+      pauseBtn.style.display = 'none';
+    });
   </script>
-  <script src="http://localhost:35729/livereload.js?snipver=1"></script>
 </body>
 </html>
