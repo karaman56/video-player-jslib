@@ -1,34 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <title>Плеер с переключением кнопок</title>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>видеоплеер</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-     .player-container {
-      width: 800px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+
+    /* Только у этого контейнера остаются размеры */
+    #player {
+      width: 100%;
+      max-width: 800px;
       height: 600px;
       background-color: #000;
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); 
+      resize: both;
     }
-     .video-element {
+
+    .video-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .video-element {
+      /* Убраны width и height */
       width: 100%;
-      height: 90%;
+      height: 100%;
       object-fit: cover;
     }
-     .controls-container {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
+
+    .controls-container {
       display: flex;
       gap: 8px;
-      z-index: 10;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.5);
     }
+
     .control-button {
-      width: 40px;
-      height: 40px;
+      width: 100%;
+      max-width: 40px;
+      aspect-ratio: 1/1;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid #808080;
       display: flex;
@@ -37,16 +65,32 @@
       cursor: pointer;
       color: white;
     }
+
     .button-hidden {
       display: none;
+    }
+
+    .resize-handle {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      cursor: nwse-resize;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      z-index: 20;
     }
   </style>
 </head>
 <body>
-  <div class="player-container">
-    <video class="video-element">
-      <source src="https://dvmn.org/media/filer_public/78/db/78db3456-3fd3-4504-9ed9-d2d1fd843c0b/highest_peak.mp4" type="video/mp4">
-    </video>
+  <div id="player">
+    <div class="video-wrapper">
+      <video class="video-element">
+        <source src="https://dvmn.org/media/filer_public/78/db/78db3456-3fd3-4504-9ed9-d2d1fd843c0b/highest_peak.mp4" type="video/mp4">
+      </video>
+    </div>
+
     <div class="controls-container">
       <div class="control-button play-button">
         <i class="fas fa-play"></i>
@@ -55,21 +99,22 @@
         <i class="fas fa-pause"></i>
       </div>
     </div>
+
+    <div class="resize-handle"></div>
   </div>
 
   <script>
     const videoElement = document.querySelector('.video-element');
     const playButton = document.querySelector('.play-button');
     const pauseButton = document.querySelector('.pause-button');
+    const playerContainer = document.getElementById('player'); // Получаем по id
 
     function togglePlayPause() {
       if (videoElement.paused) {
-        // Запускаем видео
         videoElement.play();
         playButton.classList.add('button-hidden');
         pauseButton.classList.remove('button-hidden');
       } else {
-        // Ставим на паузу
         videoElement.pause();
         playButton.classList.remove('button-hidden');
         pauseButton.classList.add('button-hidden');
@@ -82,6 +127,38 @@
     videoElement.addEventListener('ended', function() {
       playButton.classList.remove('button-hidden');
       pauseButton.classList.add('button-hidden');
+    });
+
+    let isResizing = false;
+    const resizeHandle = document.querySelector('.resize-handle');
+
+    resizeHandle.addEventListener('mousedown', function(e) {
+      isResizing = true;
+      e.preventDefault();
+
+      const startWidth = playerContainer.offsetWidth;
+      const startHeight = playerContainer.offsetHeight;
+      const startX = e.clientX;
+      const startY = e.clientY;
+
+      function onMouseMove(e) {
+        if (!isResizing) return;
+
+        const newWidth = startWidth + (e.clientX - startX);
+        const newHeight = startHeight + (e.clientY - startY);
+
+        playerContainer.style.width = `${newWidth}px`;
+        playerContainer.style.height = `${newHeight}px`;
+      }
+
+      function onMouseUp() {
+        isResizing = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     });
   </script>
 </body>
