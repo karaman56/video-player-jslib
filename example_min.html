@@ -5,21 +5,19 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    #player {
+     .player-container {
       width: 800px;
       height: 600px;
       background-color: #000;
       position: relative;
       overflow: hidden;
     }
-
-    #video {
+     .video-element {
       width: 100%;
-      height: 90%;
+      height: 100%;
       object-fit: cover;
     }
-
-    .controls-container {
+     .controls-container {
       position: absolute;
       bottom: 15px;
       left: 15px;
@@ -27,7 +25,6 @@
       gap: 8px;
       z-index: 10;
     }
-
     .control-button {
       width: 40px;
       height: 40px;
@@ -39,55 +36,51 @@
       cursor: pointer;
       color: white;
     }
-
-    /* Скрытие кнопок по умолчанию */
-    #pauseBtn {
+    .button-hidden {
       display: none;
     }
   </style>
 </head>
 <body>
-  <div id="player">
-    <video id="video">
+  <div class="player-container">
+    <video class="video-element">
       <source src="https://dvmn.org/media/filer_public/78/db/78db3456-3fd3-4504-9ed9-d2d1fd843c0b/highest_peak.mp4" type="video/mp4">
     </video>
-
     <div class="controls-container">
-      <!-- Кнопка Play (видима по умолчанию) -->
-      <div class="control-button" id="playBtn" onclick="togglePlayPause()">
+      <div class="control-button play-button">
         <i class="fas fa-play"></i>
       </div>
-
-      <!-- Кнопка Pause (скрыта по умолчанию) -->
-      <div class="control-button" id="pauseBtn" onclick="togglePlayPause()">
+      <div class="control-button pause-button button-hidden">
         <i class="fas fa-pause"></i>
       </div>
     </div>
   </div>
 
   <script>
-    const video = document.getElementById('video');
-    const playBtn = document.getElementById('playBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
+    const videoElement = document.querySelector('.video-element');
+    const playButton = document.querySelector('.play-button');
+    const pauseButton = document.querySelector('.pause-button');
 
     function togglePlayPause() {
-      if (video.paused) {
-        // Если видео на паузе - запускаем
-        video.play();
-        playBtn.style.display = 'none'; // Скрываем Play
-        pauseBtn.style.display = 'flex'; // Показываем Pause
+      if (videoElement.paused) {
+        // Запускаем видео
+        videoElement.play();
+        playButton.classList.add('button-hidden');
+        pauseButton.classList.remove('button-hidden');
       } else {
-        // Если видео играет - ставим на паузу
-        video.pause();
-        playBtn.style.display = 'flex'; // Показываем Play
-        pauseBtn.style.display = 'none'; // Скрываем Pause
+        // Ставим на паузу
+        videoElement.pause();
+        playButton.classList.remove('button-hidden');
+        pauseButton.classList.add('button-hidden');
       }
     }
 
-    // Обработчик окончания видео
-    video.addEventListener('ended', function() {
-      playBtn.style.display = 'flex';
-      pauseBtn.style.display = 'none';
+    playButton.addEventListener('click', togglePlayPause);
+    pauseButton.addEventListener('click', togglePlayPause);
+
+    videoElement.addEventListener('ended', function() {
+      playButton.classList.remove('button-hidden');
+      pauseButton.classList.add('button-hidden');
     });
   </script>
 </body>
