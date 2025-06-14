@@ -196,7 +196,7 @@ function createPlayer({
       if(percentage < 0) {
         percentage = 0;
       }
-      setSliderWidth(percentage);  // Redraw before CURRENT_TIME_UPDATED event for better responsiveness
+      setSliderWidth(percentage);
       seconds = durationSeconds * percentage / 100;
       player.seekTo(seconds);
     };
