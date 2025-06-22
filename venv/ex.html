@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Видео плеер с прогресс-баром</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    #player {
+      width: 800px;
+      height: 600px;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      resize: both;
+      overflow: auto;
+      max-width: 90%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .js-video-container {
+      width: 100%;
+      flex-grow: 1;
+      background: linear-gradient(45deg, #1a2a6c, #b21f1f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .player-controls {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      align-items: center;
+    }
+
+    .js-fullscreen-button {
+      margin-left: auto;
+    }
+
+    .play-pause-container {
+      position: relative;
+      width: 44px;
+      height: 44px;
+    }
+
+    .play-pause-container .player-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .player-button {
+      color: white;
+      background-color: transparent;
+      border: none;
+      padding: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .icon-hidden {
+      display: none;
+    }
+
+    /* Стили для прогресс-бара */
+    .progress-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 15px;
+    }
+
+    .time-display {
+      color: white;
+      font-size: 14px;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .js-progress {
+      flex: 1;
+      height: 4px;
+      background-color: #555;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .js-progress-slider {
+      position: absolute;
+      height: 100%;
+      width: 30%;
+      background-color: #f00;
+      border-radius: 2px;
+    }
+
+    .js-progress-thumb {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      top: 50%;
+      right: -6px;
+      transform: translateY(-50%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.2s;
+    }
+
+    .js-progress-thumb:hover {
+      transform: translateY(-50%) scale(1.3);
+    }
+  </style>
+</head>
+<body>
+  <div id="player">
+    <div class="js-video-container">
+      <div>
+        <i class="fas fa-play-circle" style="font-size: 64px; margin-bottom: 20px;"></i>
+        <div>Видео контент</div>
+        <div style="font-size: 16px; margin-top: 10px; opacity: 0.7;">(Прогресс-бар добавлен после кнопок звука)</div>
+      </div>
+    </div>
+
+    <div class="player-controls">
+      <div class="play-pause-container">
+        <button class="js-play-button player-button">
+          <i class="fa fa-play"></i>
+        </button>
+        <button class="js-pause-button player-button icon-hidden">
+          <i class="fas fa-pause"></i>
+        </button>
+      </div>
+
+      <button class="js-volume-button player-button" hidden>
+        <i class="fa fa-volume-off"></i>
+      </button>
+      <button class="js-mute-button player-button">
+        <i class="fa fa-volume-up"></i>
+      </button>
+
+      <!-- Добавленный контейнер для прогресс-бара -->
+      <div class="progress-container">
+        <span class="time-display js-current-time">0:00</span>
+        <div class="js-progress">
+          <div class="js-progress-slider">
+            <div class="js-progress-thumb"></div>
+          </div>
+        </div>
+        <span class="time-display js-duration">2:30</span>
+      </div>
+
+      <button class="js-fullscreen-button player-button">
+        <i class="fas fa-expand"></i>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://unpkg.com/playable@2.10.3/dist/statics/playable.bundle.min.js"></script>
+
+
+  <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+</body>
+</html>
