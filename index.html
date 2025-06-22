@@ -72,10 +72,13 @@
 
   .time-display {
     color: white;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
     min-width: 50px;
     text-align: center;
     padding: 0 5px;
+    font-family: Arial, sans-serif;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
   }
 
   .js-progress {
@@ -100,8 +103,8 @@
     position: absolute;
     width: 12px;
     height: 12px;
-    background: #f00; /* Красный фон */
-    border: 2px solid white; /* Белая граница */
+    background: #f00;
+    border: 2px solid white;
     border-radius: 50%;
     top: 50%;
     right: -6px;
@@ -109,11 +112,17 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     cursor: pointer;
     z-index: 2;
-    transition: transform 0.2s;
+    transition: opacity 0.3s ease, transform 0.2s;
+    opacity: 0;
+  }
+
+  .js-progress:hover .js-progress-thumb,
+  .js-progress-slider:hover .js-progress-thumb {
+    opacity: 1; 
   }
 
   .js-progress-thumb:hover {
-    transform: translateY(-50%) scale(1.3);
+    transform: translateY(-50%) scale(1.2);
   }
 
   </style>
