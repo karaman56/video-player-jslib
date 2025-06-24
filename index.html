@@ -3,167 +3,164 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Видео плеер </title>
+  <title>Видео плеер</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
     #player {
-    width: 800px;
-    height: 600px;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    overflow: hidden;
-    background: #000;
-    resize: both;
-    overflow: auto;
-    max-width: 90%;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-  }
+      width: 800px;
+      height: 600px;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      resize: both;
+      overflow: auto;
+      max-width: 90%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .js-video-container {
-    width: 100%;
-    flex-grow: 1;
-  }
+    .video-container {
+      width: 100%;
+      flex-grow: 1;
+    }
 
-  .player-controls {
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.7);
-  }
+    .controls-wrapper {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+    }
 
-  .js-fullscreen-button {
-    margin-left: auto;
-  }
+    .fullscreen-btn {
+      margin-left: auto;
+    }
 
-  .play-pause-container {
-    position: relative;
-    width: 44px;
-    height: 44px;
-  }
+    .play-pause-wrapper {
+      position: relative;
+      width: 44px;
+      height: 44px;
+    }
 
-  .play-pause-container .player-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+    .play-btn, .pause-btn {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
-  .player-button {
-    color: white;
-    background-color: transparent;
-    border: none;
-    padding: 10px;
-    font-size: 24px;
-    cursor: pointer;
-  }
+    .control-btn {
+      color: white;
+      background-color: transparent;
+      border: none;
+      padding: 10px;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-  .icon-hidden {
-    display: none;
-  }
+    .hidden-icon {
+      display: none;
+    }
 
-  .progress-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 0 15px;
-  }
+    .progress-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 0 15px;
+    }
 
-  .time-display {
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    min-width: 50px;
-    text-align: center;
-    padding: 0 5px;
-    font-family: Arial, sans-serif;
-    text-shadow: 0 0 2px rgba(0,0,0,0.5);
-  }
+    .time-display {
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      min-width: 50px;
+      text-align: center;
+      padding: 0 5px;
+      font-family: Arial, sans-serif;
+      text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
 
-  .js-progress {
-    flex: 1;
-    height: 4px;
-    background-color: #555;
-    border-radius: 2px;
-    cursor: pointer;
-    position: relative;
-    overflow: visible;
-  }
+    .progress-track {
+      flex: 1;
+      height: 4px;
+      background-color: #555;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: visible;
+    }
 
-  .js-progress-slider {
-    position: absolute;
-    height: 100%;
-    width: 30%;
-    background-color: #f00;
-    border-radius: 2px;
-  }
+    .progress-fill {
+      position: absolute;
+      height: 100%;
+      width: 30%;
+      background-color: #f00;
+      border-radius: 2px;
+    }
 
-  .js-progress-thumb {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: #f00;
-    border: 2px solid white;
-    border-radius: 50%;
-    top: 50%;
-    right: -6px;
-    transform: translateY(-50%);
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    cursor: pointer;
-    z-index: 2;
-    transition: opacity 0.3s ease, transform 0.2s;
-    opacity: 0;
-  }
+    .progress-handle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #f00;
+      border: 2px solid white;
+      border-radius: 50%;
+      top: 50%;
+      right: -6px;
+      transform: translateY(-50%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      cursor: pointer;
+      z-index: 2;
+      transition: opacity 0.3s ease, transform 0.2s;
+      opacity: 0;
+    }
 
-  .js-progress:hover .js-progress-thumb,
-  .js-progress-slider:hover .js-progress-thumb {
-    opacity: 1;
-  }
+    .progress-track:hover .progress-handle,
+    .progress-fill:hover .progress-handle {
+      opacity: 1;
+    }
 
-  .js-progress-thumb:hover {
-    transform: translateY(-50%) scale(1.2);
-  }
-
+    .progress-handle:hover {
+      transform: translateY(-50%) scale(1.2);
+    }
   </style>
 </head>
 <body>
   <div id="player">
-    <div class="js-video-container"></div>
+    <div class="js-video-container video-container"></div>
 
-    <div class="player-controls">
-      <div class="play-pause-container">
-        <button class="js-play-button player-button">
+    <div class="player-controls controls-wrapper">
+      <div class="play-pause-container play-pause-wrapper">
+        <button class="js-play-button play-btn control-btn">
           <i class="fa fa-play"></i>
         </button>
-        <button class="js-pause-button player-button">
+        <button class="js-pause-button pause-btn control-btn">
           <i class="fas fa-pause"></i>
         </button>
       </div>
 
-      <button class="js-volume-button player-button" hidden>
+      <button class="js-volume-button volume-btn control-btn" hidden>
         <i class="fa fa-volume-off"></i>
       </button>
-      <button class="js-mute-button player-button">
+      <button class="js-mute-button mute-btn control-btn">
         <i class="fa fa-volume-up"></i>
       </button>
-      <div class="progress-container">
+      <div class="progress-container progress-wrapper">
         <span class="time-display js-current-time">0:00</span>
-        <div class="js-progress">
-          <div class="js-progress-slider">
-            <div class="js-progress-thumb"></div>
+        <div class="js-progress progress-track">
+          <div class="js-progress-slider progress-fill">
+            <div class="js-progress-thumb progress-handle"></div>
           </div>
         </div>
         <span class="time-display js-duration">2:30</span>
       </div>
 
-
-      <button class="js-fullscreen-button player-button">
+      <button class="js-fullscreen-button fullscreen-btn control-btn">
         <i class="fas fa-expand"></i>
       </button>
     </div>
-
-
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://unpkg.com/playable@2.10.3/dist/statics/playable.bundle.min.js"></script>
